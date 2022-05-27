@@ -3,5 +3,8 @@
     "database":{
         "name":"loginPractice",
         "uri":"mongodb://localhost:27017"
+    },
+    "hashedPassword":{
+        "salt":10
     }
 }
