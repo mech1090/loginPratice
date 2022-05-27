@@ -7,12 +7,15 @@ const getLoginForm = (req,res)=>{
 }
 const login = async(req,res)=>{
     const {email,password} = req.body
-    const userFind = await userModel.find({email})
-    console.log(userFind)
+    const userFind = await userModel.findOne({email})
     if(!userFind){
-        return res.render('login/layout',{message:'Email not Found'})
+        return res.render('signup/layout',{message:'Email not Recongnized'})
     }
-    res.render('./login/layout')
+    const matchingPassword = await bcrypt.compare(password,userFind.password)
+    if(!matchingPassword){
+        return res.render('login/layout',{message:'Login UnSuccessfull'})
+    }
+    return res.render('login/layout',{message:'Login Successfull'})
     
 }
 const getSignupForm = (req,res)=>{
