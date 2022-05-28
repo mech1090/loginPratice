@@ -1,25 +1,28 @@
 const userModel = require('../model/user')
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const config = require('config')
+const userService = require('../services/user.service')
+
 
 const getLoginForm = (req,res)=>{
     res.render('login/layout')
 }
 const login = async(req,res)=>{
     const {email,password} = req.body
-    const userFind = await userModel.findOne({email})
-    if(!userFind){
-        return res.render('signup/layout',{message:'Email not Recongnized'})
+    const findUser = await userService.find({email})
+    const matchPassword = await bcrypt.compare(password,findUser.password)
+    console.log(matchPassword)
+    if(matchPassword){
+        return res.render('login/layout',{message:'login successfull'})
     }
-    const matchingPassword = await bcrypt.compare(password,userFind.password)
-    if(!matchingPassword){
-        return res.render('login/layout',{message:'Login UnSuccessfull'})
-    }
-    return res.render('login/layout',{message:'Login Successfull'})
-    
+    return res.render('login/layout',{message:'Email or Password Wrong'})
+
 }
+
+
 const getSignupForm = (req,res)=>{
-    res.render('./signup/layout')
+    res.render('signup/layout')
 }
 const signup =async (req,res)=>{
     const {email,password} = req.body
