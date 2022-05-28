@@ -1,8 +1,13 @@
 const userModel = require('../model/user')
 
 const find = async(fields)=>{
-    const findEmail = modelUser.findOne(fields)
+    const findEmail = userModel.findOne(fields)
     return findEmail
 }
 
-module.exports = {find}
+const create = async(fields)=>{
+    const createFields =  userModel.create(fields)
+    return createFields
+}
+
+module.exports = {find,create}
