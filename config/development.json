@@ -6,5 +6,8 @@
     },
     "hashedPassword":{
         "salt":10
+    },
+    "jwtKey":{
+        "jwtPrivateKey":"Calgary200"
     }
 }
